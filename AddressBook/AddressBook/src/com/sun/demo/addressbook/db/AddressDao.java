@@ -174,8 +174,20 @@ public class AddressDao {
 			stmtSaveNewRecord.clearParameters();
 			int rowCount = this
 					.countRows("where LASTNAME = '"+ record.getLastName() +"' AND FIRSTNAME = '"+record.getFirstName()+"' AND MIDDLENAME = '"+record.getMiddleName()+"' AND EMAIL = '"+record.getEmail()+"'");
-			if (rowCount == 0) {
 
+			if (rowCount == 0 && !(
+					record.getLastName() != "" &&
+					record.getFirstName() == "" &&
+					record.getMiddleName() == "" &&
+					record.getPhone() == "" &&
+					record.getEmail() == "" &&
+					record.getAddress1() == "" &&
+					record.getAddress2() == "" &&
+					record.getCity() == "" &&
+					record.getState() == "" &&
+					record.getPostalCode() == "" &&
+					record.getCountry() == "")) {
+				
 				stmtSaveNewRecord.setString(1, record.getLastName());
 				stmtSaveNewRecord.setString(2, record.getFirstName());
 				stmtSaveNewRecord.setString(3, record.getMiddleName());

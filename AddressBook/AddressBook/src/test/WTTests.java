@@ -6,13 +6,13 @@ import com.windowtester.runtime.swing.locator.JButtonLocator;
 import com.windowtester.runtime.swing.locator.JListLocator;
 import com.windowtester.runtime.swing.locator.LabeledTextLocator;
 
-public class Tests extends
+public class WTTests extends
 		UITestCaseSwing {
 
 	/**
 	 * Create an Instance
 	 */
-	public Tests() {
+	public WTTests() {
 		super(com.sun.demo.addressbook.AddressFrame.class);
 	}
 
