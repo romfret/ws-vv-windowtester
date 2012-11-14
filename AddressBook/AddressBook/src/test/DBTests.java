@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import org.dbunit.Assertion;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.Column;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.filter.DefaultColumnFilter;
@@ -18,7 +17,6 @@ import com.sun.demo.addressbook.db.AddressDao;
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WT;
 import com.windowtester.runtime.swing.UITestCaseSwing;
-import com.windowtester.runtime.swing.condition.WindowDisposedCondition;
 import com.windowtester.runtime.swing.locator.JButtonLocator;
 import com.windowtester.runtime.swing.locator.JListLocator;
 import com.windowtester.runtime.swing.locator.LabeledTextLocator;
@@ -99,22 +97,21 @@ public class DBTests extends UITestCaseSwing {
 		String tableName = "Address";
 		ITable expectedTable = expected.getTable(tableName);
 		ITable actualTable = actual.getTable(tableName);
-		Column[] filter = expected.getTableMetaData(tableName).getColumns();
+		org.dbunit.dataset.Column[] filter = expected.getTableMetaData(tableName).getColumns();
 		System.out.println("length="+filter.length);
 		ITable actualFilteredTable = DefaultColumnFilter.includedColumnsTable(
 				actualTable, filter);
 		Assertion.assertEquals(expectedTable, actualFilteredTable);
-		// ui.wait(new WindowDisposedCondition("Address Book Demo"));
+		
 	}
 
 	/**
 	 * Main test method.
 	 */
 	public void testAddDuplicatedContactData() throws Exception {
-		IUIContext ui = getUI();
-
-	
+		IUIContext ui = getUI();	
 		
+		//On essaie d'insérer 2x le même tuple dans la base
 		for (int i = 0; i < 2; i++) {
 			ui.click(new JButtonLocator("New"));
 			ui.click(new LabeledTextLocator("Last Name"));
@@ -141,6 +138,8 @@ public class DBTests extends UITestCaseSwing {
 			ui.enterText("France");
 			ui.click(new JButtonLocator("Save"));
 		}
+		
+		//Et on vérifie qu'il n'existe qu'un seul tuple de cas données d'inséré
 		assertEquals(1, connection.getRowCount("Address", "where LASTNAME = 'LEBOUCHER' AND FIRSTNAME = 'Henry' AND MIDDLENAME = 'Marc' AND EMAIL = 'henryleboucher@hotmail.com'"));
 		
 	}
@@ -154,6 +153,7 @@ public class DBTests extends UITestCaseSwing {
 		ui.enterText(""); //Le bouton save devient activé
 		ui.click(new JButtonLocator("Save"));
 		
+		//On vérifie que l'action sur le bouton save n'a eu aucune répercussion dans la base car tous les chamsp sont vides
 		assertEquals(before, connection.getRowCount("Address"));
 		
 		
@@ -161,10 +161,15 @@ public class DBTests extends UITestCaseSwing {
 	
 	public void testDeleteContact() throws Exception {		
 		IUIContext ui = getUI();
+		
 		int before = connection.getRowCount("Address");
-		ui.click(new JListLocator("CADAVID, Juan Jose"));
+		
+		ui.click(new JListLocator("CADAVID, Juan Jose")); //on a enlevé le  :109
 		ui.click(new JButtonLocator("Delete"));
+		
+		//On vérifie que la table 'Address' contient une entrée de moins
 		assertEquals(before - 1, connection.getRowCount("Address"));
+		//Ainsi qu'il s'agit bien de 'CADAVID' 
 		assertEquals(0, connection.getRowCount("Address", "where LASTNAME = 'CADAVID' AND FIRSTNAME = 'Juan' and MIDDLENAME = 'Jose'"));
 	}
 
@@ -174,7 +179,6 @@ public class DBTests extends UITestCaseSwing {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		connection = tester.getConnection();
-		// DatabaseOperation.DELETE_ALL.execute(connection, actual);
 		connection.close();
 	}
 

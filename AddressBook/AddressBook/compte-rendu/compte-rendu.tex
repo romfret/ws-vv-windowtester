@@ -1,4 +1,4 @@
-\documentclass[a4paper,oneside,frenchb,12pt]{article}
+\documentclass[a4paper,oneside,frenchb,12pt]{report}
 \usepackage{amsmath}
  \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
@@ -12,14 +12,17 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
-\title{M2GL - V \& V\\TP5 - Test d'IHM}
+\title{M2GL - V \& V\\TP5 \& TP6}
 \author{Romain LE HÔ \& Yves DEMIRDJIAN}
 
 \begin{document}
 \maketitle
 
+\chapter{TP5 - Test d'IHM SWING}
+
 \section {Notes}
-Toutes modifications apportées dans le code sont précédées d'un commentaire informant que ces dites modifications proviennent de nous.
+Toutes modifications apportées dans le code sont précédées d'un commentaire informant que ces dites modifications proviennent de nous.\\
+Les tests de ce tp se trouvent dans le fichier \emph{WTTests.java}dans le pacquage \emph{test}.
 
 \section{Tests proposés dans l'énoncé du TP}
 
@@ -97,4 +100,37 @@ Le test a immédiatement fonctionné suite aux modifications précédemment appo
 Le test consiste à simuler l'appui sur le bouton New et vérifier que le 
 bouton Cancel est bien activé.
 
+\chapter{TP6 - Test d’accès à une base de donnée}
+
+\section {Notes}
+Toutes modifications apportées dans le code sont précédées d'un commentaire informant que ces dites modifications proviennent de nous.\\
+Les tests de ce tp se trouvent dans le fichier \emph{DBTests.java}dans le pacquage \emph{test}.
+
+\section{Tests proposés dans l'énoncé du TP}
+
+\subsection{Créer deux contacts avec le même tuple (LASTNAME, FIRSTNAME, MIDDLENAME, EMAIL) et 
+vérifier que le contact n’est pas dupliqué.} 
+Pour tester le doublon (méthode testAddDuplicatedContactData), nous avons créé une boucle enregistrant les mêmes données à la suite. 
+La fonction getRowCount() de IDatabaseConnection est très utile pour l'assertion.
+Le test à d'abord échoué.\\
+Afin d'y remédier, nous avons créé notre propre opération de comptages de lignes dans le fichier AddressDao.java.\\
+Ensuite nous avons vérifié à la fonction saveRecord et editRecord qu'il n'existait pas précédemment de lignes
+dont le nom, le prénom, le deuxième prénom et l'adresse e-mail était identique à l'enregistrement en cours d'insertion. 
+Le test à été concluant par la suite.
+
+\subsection{Vérifier qu’un nouveau contact dont tous les champs sont vides ne peut pas être créé.} 
+Pour tester que les champs ne soit pas tous vides (méthode testAddContactWithEmptyTextFields), 
+nous avons utilisé WindowTester pour qu'il rentre un texte vide dans le champs du nom afin d'activer le bouton save.
+La fonction getRowCount() de IDatabaseConnection nous a permis de tester si le nombre de lignes était identique avant et après l'insertion.
+L'insertion devant échouer si au moins un des champs n'est pas rempli.
+Le test à d'abords échoué, donc une insertion a bien eu lieu.\\
+Afin d'y remédier, nous avons complété notre condition du précédent test dans le fichier AddressDao et la fonction saveRecord
+afin de tester la valeur de chacun des champs.
+
+\section{Tests supplémentaires}
+ 
+\subsection{Vérifier que la suppression d'un contact entraîne bien la suppression dans la base de donnée.} 
+Méthode testDeleteContact. Il nous a suffit de tester le nombre de lignes avant et après la suppression. 
+Puis de tester qu'il s'agit du bon contact ayant été supprimé. Le test a tout de suite fonctionné.
+ 
 \end{document}

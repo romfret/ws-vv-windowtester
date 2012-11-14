@@ -9,13 +9,9 @@
 
 package com.sun.demo.addressbook;
 
-import com.sun.demo.addressbook.ListEntry;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.List;
+
 import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 

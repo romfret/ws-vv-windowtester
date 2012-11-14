@@ -10,9 +10,8 @@ package com.sun.demo.addressbook;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.event.EventListenerList;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  *

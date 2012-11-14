@@ -172,9 +172,11 @@ public class AddressDao {
 		int id = -1;
 		try {
 			stmtSaveNewRecord.clearParameters();
+			//Notre ajout
+			//*************
 			int rowCount = this
 					.countRows("where LASTNAME = '"+ record.getLastName() +"' AND FIRSTNAME = '"+record.getFirstName()+"' AND MIDDLENAME = '"+record.getMiddleName()+"' AND EMAIL = '"+record.getEmail()+"'");
-
+			
 			if (rowCount == 0 && !(
 					record.getLastName() != "" &&
 					record.getFirstName() == "" &&
@@ -187,7 +189,7 @@ public class AddressDao {
 					record.getState() == "" &&
 					record.getPostalCode() == "" &&
 					record.getCountry() == "")) {
-				
+			//******************
 				stmtSaveNewRecord.setString(1, record.getLastName());
 				stmtSaveNewRecord.setString(2, record.getFirstName());
 				stmtSaveNewRecord.setString(3, record.getMiddleName());
@@ -217,9 +219,12 @@ public class AddressDao {
 		boolean bEdited = false;
 		try {
 			stmtUpdateExistingRecord.clearParameters();
+			//Notre ajout
+			//*************
 			int rowCount = this
 					.countRows("where LASTNAME = '"+ record.getLastName() +"' AND FIRSTNAME = '"+record.getFirstName()+"' AND MIDDLENAME = '"+record.getMiddleName()+"' AND EMAIL = '"+record.getEmail()+"'");
 			if (rowCount == 0) {
+			//*****************	
 				stmtUpdateExistingRecord.setString(1, record.getLastName());
 				stmtUpdateExistingRecord.setString(2, record.getFirstName());
 				stmtUpdateExistingRecord.setString(3, record.getMiddleName());
@@ -316,6 +321,7 @@ public class AddressDao {
 		return address;
 	}
 
+	/* Notre méthode de comptage) */
 	private int countRows(String whereClause) {
 		try {
 			ResultSet rs = dbConnection.createStatement().executeQuery(

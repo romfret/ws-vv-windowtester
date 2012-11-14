@@ -10,9 +10,9 @@
 package com.sun.demo.addressbook;
 
 import java.awt.Component;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 
 /**
  *
